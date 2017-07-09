@@ -10,11 +10,10 @@ by users to examine the behavior of Android Apps.
 Follow step 1 "Establish build environment and Download Android source." from the User Guide document provided in the repository.
       
 ### Steps to build customized emulator.
-1) After completing the steps from Instrumentation_tool repository, paste these two files *'BestPracAspect.java' and 'Logging.java'* 
+1) After completing the steps from Instrumentation_tool repository, paste these two files **_'BestPracAspect.java' and 'Logging.java'_** 
 under **_src/_** folder.
 	
-2) *'BestPracAspect.java'* contains all the aspect implementation of the Android API's which are considered to be the Best practices.
-*'Logging.java'* has all the helper methods required to generate the log.
+2) **_'BestPracAspect.java'_** contains all the aspect implementation of the Android API's which are considered to be the Best practices. **_'Logging.java'_** has all the helper methods required to generate the log.
 
 3) Initialize environment  
 ```
