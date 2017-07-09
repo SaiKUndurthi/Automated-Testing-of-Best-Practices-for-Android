@@ -7,7 +7,7 @@ This tool will analyze and provide the feedback on Android’s best practices. T
 	1)	Download folder “instrumentation_tool” from git repository into Working_Directory
 			$ git clone https://github.com/poojakanchan/instrumentation_tool.git
       
-### Steps to instrument.
+### Steps to build customized emulator.
 	1)	After completing the build steps from [Instrumentation_tool](https://github.com/poojakanchan/instrumentation_tool), paste the       		'BestPracAspect.java' and 'Logging.java' files under src/ folder.
 	
 	2)	Initialize envieonment
