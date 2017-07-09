@@ -10,40 +10,39 @@ by users to examine the behavior of Android Apps.
 Follow step 1 "Establish build environment and Download Android source." from the User Guide document provided in the repository.
       
 ### Steps to build customized emulator.
-1)	After completing the steps from Instrumentation_tool repository, paste these two files 'BestPracAspect.java' and 'Logging.java' 
-under src/ folder.
+1) After completing the steps from Instrumentation_tool repository, paste these two files *'BestPracAspect.java' and 'Logging.java'* 
+under **_src/_** folder.
 	
-2)	'BestPracAspect.java' contains all the aspect implementation of the Android API's which are considered to be the Best practices.
-'Logging.java' has all the helper methods required to generate the log.
+2) *'BestPracAspect.java'* contains all the aspect implementation of the Android API's which are considered to be the Best practices.
+*'Logging.java'* has all the helper methods required to generate the log.
 
-3)	Initialize environment  
+3) Initialize environment  
 ```
 $ export ANDROID_HOME = \<path to Working_Directory>  
 $ source build/envsetup.sh  
 $ lunch  
 ```  
-4)	Build Android source  
+4) Build Android source  
 ```
 $ make showcommands
 ```  
-To redirect logs to log file, run  
+   To redirect logs to log file, run  
 ```	
 $ make showcommands 2>&1 | tee log_file  
 ```  
-To use multiple threads, run it with -j option as  
+   To use multiple threads, run it with -j option as  
 ```
 $ make -j4
 ```  
-Note that, building the source may require up to 2-3 hours.
+   Note that, building the source may require up to 2-3 hours.
 
-5)	After build is successful, launch emulator using command:  
+5) After build is successful, launch emulator using command:  
 ```
 $ emulator  
 ```  
-To see adb logs, use command:  
+   To see adb logs, use command:  
 ```
 $ adb logcat  
 ```  
 ### Sample applications
-Two APK files are provided under the apks/ folder for you to understand the working of the tool. "violate.apk" this application violates
-the best practices and "followsBestPractice.apk" follows all the best practices.
+Two APK files are provided under the apks/ folder for you to understand the working of the tool. **_violate.apk_** this application violates the best practices and **_followsBestPractice.apk_** follows all the best practices.
