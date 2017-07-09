@@ -15,27 +15,35 @@ under src/ folder.
 	
 2)	'BestPracAspect.java' contains all the aspect implementation of the Android API's which are considered to be the Best practices.
 'Logging.java' has all the helper methods required to generate the log.
-	
-3)	Initialize environment
-		$ export ANDROID_HOME=<path to Working_Directory>
-		$ source build/envsetup.sh
-		$ lunch
-				
-4)	Build Android source
-		$ make showcommands
-	To redirect logs to log file, run
-		$ make showcommands 2>&1 | tee log_file
-	To use multiple threads, run it with -j option as
-		$ make -j4
-	 Note that, building the source may require up to 2-3 hours.
-			 
-5)	After build is successful, launch emulator using command:
-		$ emulator
-	To see adb logs, use command:
-		$ adb logcat
 
+3)	Initialize environment  
+```
+$ export ANDROID_HOME = \<path to Working_Directory>  
+$ source build/envsetup.sh  
+$ lunch  
+```  
+4)	Build Android source  
+```
+$ make showcommands
+```  
+To redirect logs to log file, run  
+```	
+$ make showcommands 2>&1 | tee log_file  
+```  
+To use multiple threads, run it with -j option as  
+```
+$ make -j4
+```  
+Note that, building the source may require up to 2-3 hours.
 
- 
+5)	After build is successful, launch emulator using command:  
+```
+$ emulator  
+```  
+To see adb logs, use command:  
+```
+$ adb logcat  
+```  
 ### Sample applications
 Two APK files are provided under the apks/ folder for you to understand the working of the tool. "violate.apk" this application violates
 the best practices and "followsBestPractice.apk" follows all the best practices.
