@@ -44,4 +44,4 @@ $ emulator
 $ adb logcat  
 ```  
 ### Sample applications
-Two APK files are provided under the apks/ folder for you to understand the working of the tool. **_violate.apk_** this application violates the best practices and **_followsBestPractice.apk_** follows all the best practices.
+Two APK files are provided under the apks/ folder for you to understand the working of the tool. **_violatesBestPractice.apk_** this application violates the best practices and **_followsBestPractice.apk_** follows all the best practices.
