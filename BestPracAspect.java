@@ -41,7 +41,7 @@ Logging logger = Logging.getInstance();
 
     Object arg[] = joinPoint.getArgs();
     StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
-    logger.insertToStopHashMap(arg[1], stacktrace);   /* The 2nd argument is always the ServiceConnection object, which is used as a key to keep track if it's removed after use. */
+    logger.insertToDestroyHashMap(arg[1], stacktrace);   /* The 2nd argument is always the ServiceConnection object, which is used as a key to keep track if it's removed after use. */
     logger.insertToErrorHashMap(arg[1] ,"Violating best practice. 'bindService' has been misused in class "+joinPoint.getTarget().getClass().toString()
     +". Object ID: "+joinPoint.getThis()+". Error 3");
  }
@@ -52,7 +52,7 @@ Logging logger = Logging.getInstance();
 
     Object arg = joinPoint.getThis();
     StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
-    logger.insertToStopHashMap(arg,stacktrace);    /* The BluetoothServerSocket calling this method is used as a key to keep track if it's removed after use. */
+    logger.insertToDestroyHashMap(arg,stacktrace);    /* The BluetoothServerSocket calling this method is used as a key to keep track if it's removed after use. */
     logger.insertToErrorHashMap(arg,"Violating best practice. 'BluetoothServerSocket.accept' has been misused  in class "+joinPoint.getTarget().getClass().toString()
     +". Object ID: "+joinPoint.getThis()+". Error 4");
 }
@@ -68,6 +68,15 @@ Logging logger = Logging.getInstance();
     +". Object ID: "+joinPoint.getThis()+". Error 5");
  }
 
+ // Applying Before aspect on the startService() API. API signature: startService(Intent service).
+ @Before("execution (* android.content.Context.startService(..))")
+  public void beforeStartService(JoinPoint joinPoint) {
+
+     Object arg[] = joinPoint.getArgs();
+     StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+     logger.insertToDestroyHashMap(arg[0],stacktrace);
+     logger.insertToErrorHashMap(arg[0],"WARNING: 'startService' has been misused. Remember to call stopService."+". Object ID: "+joinPoint.getThis());
+  }
 
  // Applying After aspect on the removeUpdates() API. API signature: removeUpdates (LocationListener listener).
 @After("execution (* android.location.LocationManager.removeUpdates(..))")
@@ -109,6 +118,15 @@ Logging logger = Logging.getInstance();
     logger.removeFromHashMap(arg[0]);   /* The 1st argument is always the SensorEventListener object, which has to be removed at the end. */
 }
 
+// Applying After aspect on the stopService() API. API signature: stopService(Intent service).
+@After("execution (* android.content.Context.stopService(..))")
+ public void afterStopService(JoinPoint joinPoint) {
+
+   Object arg[] = joinPoint.getArgs();
+ logger.removeFromHashMap(arg[0]);    /* The 1st argument is always the Intent object, which has to be removed at the end. */
+ }
+
+
 // Applying Before aspect on the onStop() API. This implementation checks if all the best practices after onPause() callback are followed or not.
 @Before("execution (* android.app.Activity.onStop(..))")
  public void beforeOnStop(JoinPoint joinPoint) {
@@ -117,17 +135,12 @@ Logging logger = Logging.getInstance();
  }
 
 
- // Applying Before aspect on the onDestroy() API. This implementation checks if all the best practices after onStop() callback are followed or not.
-@Before("execution (* android.app.Activity.onDestroy(..))")
- public void beforeOnDestroy(JoinPoint joinPoint) {
+ // Applying After aspect on the handleDestroyActivity() API. This implementation checks if all the best practices after onDestroy() callback are followed or not.
+ @After("execution (* android.app.ActivityThread.handleDestroyActivity(..))")
+ public void afterOnDestroy(JoinPoint joinPoint) {
 
-    logger.printingStopLog();   /* This function prints the log according to the best practices followed or not after onStop. */
+    logger.printingDestroyLog();   /* This function prints the log according to the best practices followed or not after onDestroy. */
+    logger.onDestroyClearAll();    /* Clears the onPause and onDestroy hashmap. */
  }
-
- @After("execution (* android.app.Activity.onDestroy(..))")
-  public void afterOnDestroy(JoinPoint joinPoint) {
-
-    logger.onDestroyClearAll();   /* Clears the onPause and onStop hashmap. */
-}
 
 }
