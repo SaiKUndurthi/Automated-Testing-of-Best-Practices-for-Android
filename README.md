@@ -41,7 +41,7 @@ $ emulator
 ```  
 6. To see adb logs, use command:  
 ```
-$ adb logcat  
+$ adb logcat System.out:I *:S 
 ```  
 ### Sample applications
 Two APK files are provided under the apks/ folder for you to understand the working of the tool. **_violatesBestPractice.apk_** this application violates the best practices and **_followsBestPractice.apk_** follows all the best practices.
