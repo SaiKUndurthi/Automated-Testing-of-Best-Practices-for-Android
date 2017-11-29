@@ -5,7 +5,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 
 /**
- * The BestPracAspect class provides with all the aspect implemented best practices.
+ * The BestPracAspect class provides with all the well-defined aspect implemented best practices.
  */
 @Aspect
 public class BestPracAspect{
