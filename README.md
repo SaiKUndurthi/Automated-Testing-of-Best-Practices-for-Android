@@ -1,4 +1,5 @@
-# Best-Practices-for-Android-Apps
+# Automated Testing of Best Practices for Android
+
 
 This tool analyzes and provides the feedback on an Android app, violating best practices. The analysis looks out for patterns that 
 violate the best practices of Android and with respect to the violations generates log which helps the developer better understand 
