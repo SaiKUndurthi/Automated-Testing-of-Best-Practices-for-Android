@@ -9,7 +9,8 @@ import java.util.logging.Logger;
  * The Logging class provides with all the method definitiond and hashmaps requierd to generate the log for an Android application.
  */
 public class Logging {
-
+    private static final HashMap < Object, StackTraceElement[] > onPauseLogStoringStruct = new HashMap < Object, StackTraceElement[] > ();   // Stores the stacktrace of the best practices that are to be relesed onPause.
+    private static final HashMap < Object, StackTraceElement[] > onDestroyLogStoringStruct = new HashMap < Object, StackTraceElement[] > ();    // Stores the stacktrace of the best practices that are to be relesed onDestroy.
     private static final Logging logger = new Logging();
     private Logging() {}
 
@@ -20,20 +21,15 @@ public class Logging {
 
     // Method to insert the stacktrace of the best practices that are to be relesed onDestroy.
     public void insertToDestroyHashMap(Object arg, StackTraceElement[] stacktrace) {
-        if (onDestroyLogStoringStruct.isEmpty()) {
+            
             onDestroyLogStoringStruct.put(arg, stacktrace);
-        } else if (!onDestroyLogStoringStruct.containsKey(arg)) {
-            onDestroyLogStoringStruct.put(arg, stacktrace);
-        }
     }
 
     // Method to insert the stacktrace of the best practices that are to be relesed onPause.
     public void insertToPauseHashMap(Object arg, StackTraceElement[] stacktrace) {
-        if (onPauseLogStoringStruct.isEmpty()) {
+        
             onPauseLogStoringStruct.put(arg, stacktrace);
-        } else if (!onPauseLogStoringStruct.containsKey(arg)) {
-            onPauseLogStoringStruct.put(arg, stacktrace);
-        }
+        
     }
 
 
