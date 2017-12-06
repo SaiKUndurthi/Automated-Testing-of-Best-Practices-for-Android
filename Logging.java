@@ -10,92 +10,88 @@ import java.util.logging.Logger;
  */
 public class Logging {
 
- private static final HashMap < Object, StackTraceElement[] > onPauseLogStoringStruct = new HashMap < Object, StackTraceElement[] > ();   // Stores the stacktrace of the best practices that are to be relesed onPause.
- private static final HashMap < Object, String > printErrorStatement = new HashMap < Object, String > ();   // Stores the error statement to be logged when a best practice is violated.
- private static final HashMap < Object, StackTraceElement[] > onDestroyLogStoringStruct = new HashMap < Object, StackTraceElement[] > ();    // Stores the stacktrace of the best practices that are to be relesed onDestroy.
- private static final Logging logger = new Logging();
- private Logging() {}
+    private static final Logging logger = new Logging();
+    private Logging() {}
 
-// Returns Instance of the Logging class
- public static Logging getInstance() {
-  return logger;
- }
-
- // Method to insert the stacktrace of the best practices that are to be relesed onDestroy.
- public void insertToDestroyHashMap(Object arg, StackTraceElement[] stacktrace) {
-  if (onDestroyLogStoringStruct.isEmpty()) {
-   onDestroyLogStoringStruct.put(arg, stacktrace);
-  } else if (!onDestroyLogStoringStruct.containsKey(arg)) {
-   onDestroyLogStoringStruct.put(arg, stacktrace);
-  }
- }
-
- // Method to insert the stacktrace of the best practices that are to be relesed onPause.
- public void insertToPauseHashMap(Object arg, StackTraceElement[] stacktrace) {
-  if (onPauseLogStoringStruct.isEmpty()) {
-   onPauseLogStoringStruct.put(arg, stacktrace);
-
-  } else if (!onPauseLogStoringStruct.containsKey(arg)) {
-   onPauseLogStoringStruct.put(arg, stacktrace);
-  }
- }
-
- // Method to insert the error statement that is logged when a best practice is violated.
- public void insertToErrorHashMap(Object arg, String error) {
-  if (printErrorStatement.isEmpty()) {
-   printErrorStatement.put(arg, error);
-  } else if (!printErrorStatement.containsKey(arg)) {
-   printErrorStatement.put(arg, error);
-  }
- }
-
- // Method to remove stacktrace and error statement of the best practice from the hashmaps that followed all the rules.
- public void removeFromHashMap(Object arg) {
-  if (onPauseLogStoringStruct.containsKey(arg)) {
-   onPauseLogStoringStruct.remove(arg);
-   printErrorStatement.remove(arg);
-  } else if (onDestroyLogStoringStruct.containsKey(arg)) {
-   onDestroyLogStoringStruct.remove(arg);
-   printErrorStatement.remove(arg);
-  }
- }
-
- // This method prints the log for the best practices not followed onPause.
- public void printingPauseLog() {
-  if (!onPauseLogStoringStruct.isEmpty()) {
-   for (Object listener: onPauseLogStoringStruct.keySet()) {
-    StackTraceElement[] element = onPauseLogStoringStruct.get(listener);
-    System.out.println(printErrorStatement.get(listener));
-    for (int i = 0; i < element.length; i++) {
-     System.out.println("\t\tat " + element[i] + "\n");
+    // Returns Instance of the Logging class
+    public static Logging getInstance() {
+        return logger;
     }
-    System.out.printf("-------------------------------------------------------------\n");
-   }
-  }
- }
 
- // This method prints the log for the best practices not followed onDestroy.
- public void printingDestroyLog() {
-  if (!onDestroyLogStoringStruct.isEmpty()) {
-   for (Object listener: onDestroyLogStoringStruct.keySet()) {
-    StackTraceElement[] element = onDestroyLogStoringStruct.get(listener);
-    System.out.println(printErrorStatement.get(listener));
-    for (int i = 0; i < element.length; i++) {
-     System.out.println("\t\tat " + element[i] + "\n");
+    // Method to insert the stacktrace of the best practices that are to be relesed onDestroy.
+    public void insertToDestroyHashMap(Object arg, StackTraceElement[] stacktrace) {
+        if (onDestroyLogStoringStruct.isEmpty()) {
+            onDestroyLogStoringStruct.put(arg, stacktrace);
+        } else if (!onDestroyLogStoringStruct.containsKey(arg)) {
+            onDestroyLogStoringStruct.put(arg, stacktrace);
+        }
     }
-    System.out.printf("-------------------------------------------------------------\n");
-   }
-  }
- }
 
- // Clears onDestroyLogStoringStruct, onPauseLogStoringStruct and printErrorStatement hashmaps.
- public void onDestroyClearAll() {
-   onPauseLogStoringStruct.clear();
-   onDestroyLogStoringStruct.clear();
-  if (printErrorStatement.isEmpty()) {
-   System.out.println("Followed all the best practices.");
-   System.out.printf("-------------------------------------------------------------\n");
-  } else {
-   printErrorStatement.clear();
-  }
- }
+    // Method to insert the stacktrace of the best practices that are to be relesed onPause.
+    public void insertToPauseHashMap(Object arg, StackTraceElement[] stacktrace) {
+        if (onPauseLogStoringStruct.isEmpty()) {
+            onPauseLogStoringStruct.put(arg, stacktrace);
+        } else if (!onPauseLogStoringStruct.containsKey(arg)) {
+            onPauseLogStoringStruct.put(arg, stacktrace);
+        }
+    }
+
+
+    // Method to remove stacktrace of the best practice from the hashmaps that followed all the rules.
+    public void removeFromHashMap(Object arg) {
+        if (onPauseLogStoringStruct.containsKey(arg)) {
+            onPauseLogStoringStruct.remove(arg);
+        } else if (onDestroyLogStoringStruct.containsKey(arg)) {
+            onDestroyLogStoringStruct.remove(arg);
+        }
+    }
+
+    // This method prints the log for the best practices not followed onPause.
+    public void printingPauseLog() {
+        if (!onPauseLogStoringStruct.isEmpty()) {
+            for (Object listener: onPauseLogStoringStruct.keySet()) {
+                StackTraceElement[] element = onPauseLogStoringStruct.get(listener);
+                if (element[3].getMethodName().toString().equals("requestLocationUpdates")) {
+                    System.out.println("Violating best practice. 'requestLocationUpdates' has been misused. Error 1");
+                } else if (element[3].getMethodName().toString().equals("open")) {
+                    System.out.println("Violating best practice. 'Camera open()' has been misused. Error 2");
+                } else if (element[3].getMethodName().toString().equals("registerListener")) {
+                    System.out.println("Violating best practice. 'registerListener' has been misused. Error 5");
+                }
+                for (int i = 3; i < element.length; i++) {
+                    System.out.println("\t\tat " + element[i] + "\n");
+                }
+                System.out.printf("-------------------------------------------------------------\n");
+            }
+        }
+    }
+
+    // This method prints the log for the best practices not followed onDestroy.
+    public void printingDestroyLog() {
+        if (!onDestroyLogStoringStruct.isEmpty()) {
+            for (Object listener: onDestroyLogStoringStruct.keySet()) {
+                StackTraceElement[] element = onDestroyLogStoringStruct.get(listener);
+                if (element[3].getMethodName().toString().equals("startService")) {
+                    System.out.println("WARNING 3: 'startService' has been misused. Remember to call stopService.");
+                } else if (element[3].getMethodName().toString().equals("accept")) {
+                    System.out.println("Violating best practice. 'BluetoothServerSocket accept()' has been misused. Error 4");
+                }
+                for (int i = 3; i < element.length; i++) {
+                    System.out.println("\t\tat " + element[i] + "\n");
+                }
+                System.out.printf("-------------------------------------------------------------\n");
+            }
+        }
+    }
+
+    // Clears onDestroyLogStoringStruct and onPauseLogStoringStruct hashmaps.
+    public void onDestroyClearAll() {
+        if (onPauseLogStoringStruct.isEmpty() && onDestroyLogStoringStruct.isEmpty()) {
+            System.out.println("Followed all the best practices.");
+            System.out.printf("-------------------------------------------------------------\n");
+        } else {
+            onPauseLogStoringStruct.clear();
+            onDestroyLogStoringStruct.clear();
+        }
+    }
+}
